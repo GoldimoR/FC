@@ -17,7 +17,7 @@ function Centaur.OnUpdate()
 	if Menu.IsKeyDown(Centaur.PressComboKey) then	
 		-- Skills
 		local stomp = NPC.GetAbility(myHero, "centaur_hoof_stomp")
-		local totem = NPC.GetAbility(myHero, "centaur_double_edge")  
+		local edge = NPC.GetAbility(myHero, "centaur_double_edge")  
 
 		
 		-- Items
@@ -97,8 +97,7 @@ function Centaur.OnUpdate()
 		return end
 		
 		if enemyTarget and stomp and Ability.IsReady(stomp) and Ability.IsCastable(stomp, myMana) then
-			local enemyAbsOrigin = Entity.GetAbsOrigin(enemyTarget)
-			Ability.CastTarget(stomp, enemyAbsOrigin)
+			Ability.CastNoTarget(stomp)
 		return end
 		
 		if enemyTarget and edge and Ability.IsReady(edge) and Ability.IsCastable(edge, myMana) then 
