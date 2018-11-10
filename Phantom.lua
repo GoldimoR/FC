@@ -148,7 +148,7 @@ function Phantom.OnDraw()
     local dagger_damage = 0
     local dagger = NPC.GetAbility(myHero, "phantom_assassin_stifling_dagger")
     if dagger and Ability.IsCastable(dagger, NPC.GetMana(myHero)) then
-        dagger_damage = 65 + NPC.GetTrueDamage(myHero) * NPC.GetArmorDamageMultiplier(enemy)
+        dagger_damage = (65 + NPC.GetTrueDamage(myHero) * Ability.GetLevelSpecialValueFor(dagger, "attack_factor_tooltip") / 100 )
     end
 
     for i = 1, Heroes.Count() do
@@ -181,14 +181,13 @@ end
 function Phantom.KillSteal(myHero)
     local dagger = NPC.GetAbility(myHero, "phantom_assassin_stifling_dagger")
     if not dagger or not Ability.IsCastable(dagger, NPC.GetMana(myHero)) then return end
-    local damage = 65 + NPC.GetTrueDamage(myHero) * NPC.GetArmorDamageMultiplier(enemy)
-
+    local damage = (65 + NPC.GetTrueDamage(myHero) * Ability.GetLevelSpecialValueFor(dagger, "attack_factor_tooltip") / 100 )
     local range = 800
     local enemies = NPC.GetHeroesInRadius(myHero, range, Enum.TeamType.TEAM_ENEMY)
     if not enemies or #enemies <= 0 then return end
 
     for i, enemy in ipairs(enemies) do
-    	local true_damage = damage * NPC.GetMagicalArmorDamageMultiplier(enemy)
+    	local true_damage = damage * NPC.GetArmorDamageMultiplier(enemy)
 	    if Entity.GetHealth(enemy) <= true_damage and Utility.CanCastSpellOn(enemy) then
 	        Ability.CastTarget(dagger, enemy)
 	        return
