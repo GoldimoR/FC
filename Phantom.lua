@@ -129,10 +129,6 @@ function Phantom.OnUpdate()
 			Ability.CastTarget(discord, enemyTarget) 
 		return end
 
-		if enemyTarget and MoM and Ability.IsReady(MoM) and Ability.IsCastable(MoM, myMana) then
-			Ability.CastNoTarget(MoM) 
-		return end
-
 		if enemyTarget and abyssalblade and Ability.IsReady(abyssalblade) and Ability.IsCastable(abyssalblade, myMana) then
 			Ability.CastTarget(abyssalblade, enemyTarget) 
 		return end
@@ -171,6 +167,10 @@ function Phantom.OnUpdate()
 		
 		if enemyTarget and nullifier and Ability.IsReady(nullifier) and Ability.IsCastable(nullifier, myMana) then
 			Ability.CastTarget(nullifier, enemyTarget) 
+		return end
+
+		if enemyTarget and MoM and Ability.IsReady(MoM) and Ability.IsCastable(MoM, myMana) then
+			Ability.CastNoTarget(MoM) 
 		return end
 	end
 end
