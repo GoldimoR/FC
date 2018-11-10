@@ -1,17 +1,19 @@
 local Centaur = {}
 
-Centaur.optionEnableScript = Menu.AddOption({"Hero Rasta", "Centaur"}, "1.Enable", "Turn on/off this script.")
-Centaur.PressComboKey = Menu.AddKeyOption({ "Hero Rasta","Centaur" }, "2. Execute combo key", Enum.ButtonCode.KEY_I)
+Centaur.optionEnableScript = Menu.AddOption({"Hero by Rasta", "Centaur"}, "1.Enable", "Turn on/off this script.")
+Centaur.PressComboKey = Menu.AddKeyOption({ "Hero by Rasta","Centaur" }, "2. Execute combo key", Enum.ButtonCode.KEY_I)
+local optionAwareness = Menu.AddOption({"Hero by Rasta", "Centaur"}, "Awareness", "Show how many hits left to kill enemy")
 
-
+local font = Renderer.LoadFont("Tahoma", 30, Enum.FontWeight.EXTRABOLD)
 Centaur.npcName = "npc_dota_hero_centaur"
+
 function Centaur.OnUpdate()
 	if not Menu.IsEnabled(Centaur.optionEnableScript) then return true end
     local myHero = Heroes.GetLocal()
 	if not myHero then return end
 	if NPC.GetUnitName(myHero) ~= Centaur.npcName then return end
 	
-	
+
 	
 	
 	if Menu.IsKeyDown(Centaur.PressComboKey) then	
@@ -141,6 +143,44 @@ function Centaur.OnUpdate()
 		
 	end
 	
+end
+
+function Centaur.OnDraw()
+	if not Menu.IsEnabled(optionAwareness) then return end
+
+    local myHero = Heroes.GetLocal()
+    if not myHero or NPC.GetUnitName(myHero) ~= "npc_dota_hero_centaur" then return end
+
+    local edge_damage = 0
+    local edge = NPC.GetAbility(myHero, "centaur_double_edge")
+    if edge and Ability.IsCastable(edge, NPC.GetMana(myHero)) then
+        edge_damage = 400
+    end
+
+    for i = 1, Heroes.Count() do
+        local enemy = Heroes.Get(i)
+        if not NPC.IsIllusion(enemy) and not Entity.IsSameTeam(myHero, enemy) and not Entity.IsDormant(enemy) and Entity.IsAlive(enemy) then
+            
+            local enemyHp = Entity.GetHealth(enemy)
+            local physical_damage = NPC.GetTrueDamage(myHero) * NPC.GetArmorDamageMultiplier(enemy) 
+            local magical_damage = edge_damage * NPC.GetMagicalArmorDamageMultiplier(enemy)
+            local enemyHpLeft = enemyHp - magical_damage
+            local hitsLeft = math.ceil(enemyHpLeft / math.max(physical_damage, 1))
+            
+            -- Прорисовка
+            local pos = Entity.GetAbsOrigin(enemy)
+            local x, y, visible = Renderer.WorldToScreen(pos)
+
+              -- red : can kill; green : cant kill
+            if enemyHpLeft <= 0 then
+                Renderer.SetDrawColor(255, 0, 0, 255)
+                Renderer.DrawTextCentered(font, x, y, "Kill", 1)
+            else
+                Renderer.SetDrawColor(0, 255, 0, 255)
+                Renderer.DrawTextCentered(font, x, y, hitsLeft, 1)
+            end
+        end
+	end
 end
 
 return Centaur
