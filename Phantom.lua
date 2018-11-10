@@ -30,6 +30,14 @@ function Phantom.OnUpdate()
 	
 		
 		-- Вещи
+                local mjolnir = NPC.GetItem(myHero, "item_mjollnir", true)
+                local manta = NPC.GetItem(myHero, "item_manta", true)
+                local atos = NPC.GetItem(myHero, "item_rod_of_atos", true)
+                local MoM = NPC.GetItem(myHero, "item_mask_of_madness", true)
+                local necronomicon1 = NPC.GetItem(myHero, "item_necronomicon", true)
+                local necronomicon2 = NPC.GetItem(myHero, "item_necronomicon_2", true)
+                local necronomicon3 = NPC.GetItem(myHero, "item_necronomicon_3", true)
+                local discord = NPC.GetItem(myHero, "item_veil_of_discord", true)
 		local BKB = NPC.GetItem(myHero, "item_black_king_bar", true)
 		local blademail = NPC.GetItem(myHero, "item_blade_mail", true)
 		local diffusal = NPC.GetItem(myHero, "item_diffusal_blade", true)
@@ -40,7 +48,6 @@ function Phantom.OnUpdate()
 		local orchid = NPC.GetItem(myHero, "item_orchid", true)
 		local bloodthorn = NPC.GetItem(myHero, "item_bloodthorn", true)
 		local abyssalblade = NPC.GetItem(myHero, "item_abyssal_blade", true)
-		
 		local forceStaff = NPC.GetItem(myHero, "item_force_staff", true)
 		local hurricanePike = NPC.GetItem(myHero, "item_hurricane_pike", true)
 		local eul = NPC.GetItem(myHero, "item_cyclone", true)
@@ -98,10 +105,42 @@ function Phantom.OnUpdate()
 			Ability.CastTarget(strike, enemyTarget) 
 		return end
 		
+		if enemyTarget and mjolnir and Ability.IsReady(mjolnir) and Ability.IsCastable(mjolnir, myMana) then
+			Ability.CastTarget(mjolnir, myHero) 
+		return end
+
+		if enemyTarget and atos and Ability.IsReady(atos) and Ability.IsCastable(atos, myMana) then
+			Ability.CastTarget(atos, enemyTarget) 
+		return end
+
+		if enemyTarget and necronomicon1 and Ability.IsReady(necronomicon1) and Ability.IsCastable(discord, myMana) then
+			Ability.CastNoTarget(necronomicon1) 
+		return end
+
+		if enemyTarget and necronomicon2 and Ability.IsReady(necronomicon2) and Ability.IsCastable(discord, myMana) then
+			Ability.CastNoTarget(necronomicon2) 
+		return end
+
+		if enemyTarget and necronomicon3 and Ability.IsReady(necronomicon3) and Ability.IsCastable(discord, myMana) then
+			Ability.CastNoTarget(necronomicon3) 
+		return end
+
+		if enemyTarget and discord and Ability.IsReady(discord) and Ability.IsCastable(discord, myMana) then
+			Ability.CastTarget(discord, enemyTarget) 
+		return end
+
+		if enemyTarget and MoM and Ability.IsReady(MoM) and Ability.IsCastable(MoM, myMana) then
+			Ability.CastNoTarget(MoM) 
+		return end
+
 		if enemyTarget and abyssalblade and Ability.IsReady(abyssalblade) and Ability.IsCastable(abyssalblade, myMana) then
 			Ability.CastTarget(abyssalblade, enemyTarget) 
 		return end
 		
+		if enemyTarget and manta and Ability.IsReady(manta) and Ability.IsCastable(manta, myMana) then
+			Ability.CastNoTarget(manta) 
+		return end
+
 		if enemyTarget and blademail and Ability.IsReady(blademail) and Ability.IsCastable(blademail, myMana) then
 			Ability.CastNoTarget(blademail) 
 		return end
@@ -110,12 +149,9 @@ function Phantom.OnUpdate()
 			Ability.CastNoTarget(BKB) 
 		return end
 
-		
 		if enemyTarget and diffusal and Ability.IsReady(diffusal) and Ability.IsCastable(diffusal, myMana) then
 			Ability.CastTarget(diffusal, enemyTarget) 
 		return end
-		
-		
 		
 		if enemyTarget and medallion and Ability.IsReady(medallion) and Ability.IsCastable(medallion, myMana) then
 			Ability.CastTarget(medallion, enemyTarget) 
