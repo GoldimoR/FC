@@ -3,7 +3,7 @@ local Centaur = {}
 Centaur.optionEnableScript = Menu.AddOption({"Hero by Rasta", "Centaur"}, "1.Enable", "Turn on/off this script.")
 Centaur.PressComboKey = Menu.AddKeyOption({ "Hero by Rasta","Centaur" }, "2. Execute combo key", Enum.ButtonCode.KEY_I)
 local optionAwareness = Menu.AddOption({"Hero by Rasta", "Centaur"}, "Awareness", "Show how many hits left to kill enemy")
-
+local optionKillSteal = Menu.AddOption({"Hero by Rasta", "Centaur"}, "Kill Steal", "Auto cast Edge")
 local font = Renderer.LoadFont("Tahoma", 30, Enum.FontWeight.EXTRABOLD)
 Centaur.npcName = "npc_dota_hero_centaur"
 
@@ -13,7 +13,9 @@ function Centaur.OnUpdate()
 	if not myHero then return end
 	if NPC.GetUnitName(myHero) ~= Centaur.npcName then return end
 	
-
+    if Menu.IsEnabled(optionKillSteal) then
+    Centaur.KillSteal(myHero)
+	end
 	
 	
 	if Menu.IsKeyDown(Centaur.PressComboKey) then	
@@ -181,6 +183,23 @@ function Centaur.OnDraw()
             end
         end
 	end
+end
+
+function Centaur.KillSteal(myHero)
+    local edge = NPC.GetAbility(myHero, "centaur_double_edge")
+    if not edge or not Ability.IsCastable(edge, NPC.GetMana(myHero)) then return end
+    local damage = Ability.GetLevelSpecialValueFor(edge, "edge_damage")
+    local range = 150
+    local enemies = NPC.GetHeroesInRadius(myHero, range, Enum.TeamType.TEAM_ENEMY)
+    if not enemies or #enemies <= 0 then return end
+
+    for i, enemy in ipairs(enemies) do
+    	local true_damage = damage * NPC.GetArmorDamageMultiplier(enemy)
+	    if Entity.GetHealth(enemy) <= true_damage and Utility.CanCastSpellOn(enemy) then
+	        Ability.CastTarget(edge, enemy)
+	        return
+	    end
+    end
 end
 
 return Centaur
