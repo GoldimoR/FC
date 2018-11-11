@@ -25,6 +25,14 @@ function Centaur.OnUpdate()
 
 		
 		-- Items
+                local mjolnir = NPC.GetItem(myHero, "item_mjollnir", true)
+                local manta = NPC.GetItem(myHero, "item_manta", true)
+                local atos = NPC.GetItem(myHero, "item_rod_of_atos", true)
+                local MoM = NPC.GetItem(myHero, "item_mask_of_madness", true)
+                local necronomicon1 = NPC.GetItem(myHero, "item_necronomicon", true)
+                local necronomicon2 = NPC.GetItem(myHero, "item_necronomicon_2", true)
+                local necronomicon3 = NPC.GetItem(myHero, "item_necronomicon_3", true)
+                local discord = NPC.GetItem(myHero, "item_veil_of_discord", true)
 		local lotus = NPC.GetItem(myHero, "item_lotus_orb", true)
 		local BKB = NPC.GetItem(myHero, "item_black_king_bar", true)
 		local blademail = NPC.GetItem(myHero, "item_blade_mail", true)
@@ -96,6 +104,35 @@ function Centaur.OnUpdate()
 			Ability.CastNoTarget(BKB) 
 		return end
 		
+		if enemyTarget and mjolnir and Ability.IsReady(mjolnir) and Ability.IsCastable(mjolnir, myMana) then
+			Ability.CastTarget(mjolnir, myHero) 
+		return end
+
+		if enemyTarget and atos and Ability.IsReady(atos) and Ability.IsCastable(atos, myMana) then
+			Ability.CastTarget(atos, enemyTarget) 
+		return end
+
+		if enemyTarget and necronomicon1 and Ability.IsReady(necronomicon1) and Ability.IsCastable(necronomicon1, myMana) then
+			Ability.CastNoTarget(necronomicon1) 
+		return end
+
+		if enemyTarget and necronomicon2 and Ability.IsReady(necronomicon2) and Ability.IsCastable(necronomicon2, myMana) then
+			Ability.CastNoTarget(necronomicon2) 
+		return end
+
+		if enemyTarget and necronomicon3 and Ability.IsReady(necronomicon3) and Ability.IsCastable(necronomicon3, myMana) then
+			Ability.CastNoTarget(necronomicon3) 
+		return end
+
+		if discord and Ability.IsCastable(discord, myMana) and enemyTarget ~= nil and NPC.IsPositionInRange(myHero, Entity.GetAbsOrigin(enemyTarget),1200,0) then 
+		local enemyAbsOrigin = Entity.GetAbsOrigin(enemyTarget)
+		Ability.CastPosition(discord,enemyAbsOrigin) 
+		return end
+
+		if enemyTarget and manta and Ability.IsReady(manta) and Ability.IsCastable(manta, myMana) then
+			Ability.CastNoTarget(manta) 
+		return end
+
 		if enemyTarget and lotus and Ability.IsReady(lotus) and Ability.IsCastable(lotus, myMana) then
 			Ability.CastTarget(lotus, myHero) 
 		return end
@@ -141,7 +178,9 @@ function Centaur.OnUpdate()
 			Ability.CastTarget(nullifier, enemyTarget) 
 		return end
 		
-		
+		if enemyTarget and MoM and Ability.IsReady(MoM) and Ability.IsCastable(MoM, myMana) then
+			Ability.CastNoTarget(MoM) 
+		return end
 		
 	end
 	
