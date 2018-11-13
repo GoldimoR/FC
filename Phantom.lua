@@ -8,6 +8,7 @@ Phantom.PressComboKey = Menu.AddKeyOption({ "Hero by Rasta","Phantom" }, "2. Exe
 local optionKillSteal = Menu.AddOption({"Hero by Rasta", "Phantom"}, "Kill Steal", "Auto cast Dagger")
 local optionAwareness = Menu.AddOption({"Hero by Rasta", "Phantom"}, "Awareness", "Show how many hits left to kill enemy")
 local font = Renderer.LoadFont("Tahoma", 30, Enum.FontWeight.EXTRABOLD)
+local optionAutoDagger = Menu.AddOption({"Hero by Rasta", "Phantom"}, "Auto Dagger", "Auto Dagger if hero in radius")
 
 Phantom.npcName = "npc_dota_hero_phantom_assassin"
 
@@ -21,7 +22,9 @@ function Phantom.OnUpdate()
     if Menu.IsEnabled(optionKillSteal) then
         Phantom.KillSteal(myHero)end
 	
-		
+	    if Menu.IsEnabled(optionAutoDagger) then
+        Phantom.AutoDagger()
+    end	
 		
 		if Menu.IsKeyDown(Phantom.PressComboKey) then	
 		-- Скилы
@@ -228,6 +231,28 @@ function Phantom.KillSteal(myHero)
 	        Ability.CastTarget(dagger, enemy)
 	        return
 	    end
+    end
+end
+
+
+function Phantom.AutoDagger()
+    local myHero = Heroes.GetLocal()
+    if not myHero or not Utility.IsSuitableToCastSpell(myHero) then return end
+	local myMana = NPC.GetMana(myHero)
+    local spell = NPC.GetAbility(myHero, "phantom_assassin_stifling_dagger")
+    if not spell or not Ability.IsCastable(spell, NPC.GetMana(myHero)) then return end
+    local range = Ability.GetCastRange(spell)
+
+    for i = 1, Heroes.Count() do
+        local enemy = Input.GetNearestHeroToCursor(Entity.GetTeamNum(myHero), Enum.TeamType.TEAM_ENEMY)
+        if enemy and not Entity.IsSameTeam(myHero, enemy)
+        and Utility.CanCastSpellOn(enemy) and NPC.IsEntityInRange(myHero, enemy, range) then
+
+            if enemy and spell and Ability.IsReady(spell) and Ability.IsCastable(spell, myMana) then
+                Ability.CastTarget(spell, enemy)
+                return
+            end
+        end
     end
 end
 
