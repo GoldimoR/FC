@@ -1,3 +1,5 @@
+local Utility = require("Utility")
+
 local balanar = {}
 
 balanar.optionEnableScript = Menu.AddOption({"Hero by Rasta", "Balanar"}, "1.Enable", "Turn on/off this script.")
