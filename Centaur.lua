@@ -1,3 +1,5 @@
+local Utility = require("Utility")
+
 local Centaur = {}
 
 Centaur.optionEnableScript = Menu.AddOption({"Hero by Rasta", "Centaur"}, "1.Enable", "Turn on/off this script.")
