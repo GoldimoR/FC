@@ -1,3 +1,5 @@
+local Utility = require("Utility")
+
 local chaos = {}
 
 chaos.optionEnableScript = Menu.AddOption({"Hero by Rasta", "Chaos Knigth"}, "1.Enable", "Turn on/off this script.")
