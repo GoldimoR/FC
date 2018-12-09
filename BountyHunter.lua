@@ -1,3 +1,5 @@
+local Utility = require("Utility")
+
 local Hunter = {}
 
 optionEnableScript = Menu.AddOption({"Hero by Rasta", "Bounty Hunter"}, "1.Enable", "Turn on/off this script.")
