@@ -1,3 +1,5 @@
+local Utility = require("Utility")
+
 local Clockwerk = {}
 
 Clockwerk.optionEnableScript = Menu.AddOption({"Hero by Rasta", "Clockwerk"}, "1.Enable", "Turn on/off this script.")
