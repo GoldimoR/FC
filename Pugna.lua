@@ -1,3 +1,5 @@
+local Utility = require("Utility")
+
 local Pugna = {}
 
 Pugna.optionEnableScript = Menu.AddOption({"Hero by Rasta", "Pugna"}, "1.Enable", "Turn on/off this script.")
