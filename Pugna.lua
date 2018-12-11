@@ -194,6 +194,12 @@ function Pugna.OnUpdate()
 		if enemyTarget and drain and Ability.IsReady(drain) and Ability.IsCastable(drain, myMana) then 
 			Ability.CastTarget(drain, enemyTarget) 
 		return end
+
+		if enemyTarget ~= nil and NPC.IsPositionInRange(myHero, Entity.GetAbsOrigin(enemyTarget),1300,0) then 
+		local enemyAbsOrigin = Entity.GetAbsOrigin(enemyTarget)
+		Player.AttackTarget(myPlayer, myHero, enemyTarget)
+		return end
+
 	end
 	
 end
